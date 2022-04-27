@@ -31,21 +31,23 @@
       <div id="background">
       <!-- Heading -->
       <h2>Enter the Following Below:</h2>
-      <!-- Text fields and button (User Input)-->
+      <!-- Text fields (for variables) and button (User Input)-->
       <form method = "post">
         <p>Enter the Base Edge Length:</p> <input type="number" step="any" min="0" name="baseEdge" placeholder="Length of Base">
         <br><br>   
         <p>Enter the Height:</p> <input type="number" step="any" min="0" name="height" placeholder="Height">
         <br><br>
-        <p>Unit (mm/cm/dm/m/hm/km):</p> <input type="text" name="unit" placeholder="Metric Units"><br>
+        <p>Unit for measurements (mm/cm/dm/m/hm/km):</p> <input type="text" name="unit" placeholder="Metric Units"><br>
         <br><br>
         <!-- Submit Button -->
         <input type="submit" class="button" name="submit" value="Calculate Volume and Surface Area">
       </form>
       <!-- Calculations for Surface Area and Volume (With User Input) -->
       <?php
-        if(isset($_POST['submit'])) {	// if submit pressed
-          if($_POST['baseEdge'] != "" && $_POST['height'] != "" && $_POST['unit'] != "") { // Checks if all fields have input
+        // If submit button pressed
+        if(isset($_POST['submit'])) {
+          // Checks if all fields have input
+          if($_POST['baseEdge'] != "" && $_POST['height'] != "" && $_POST['unit'] != "") {
           
           // Variables
           $baseEdge = ($_POST["baseEdge"]); // takes user input 
@@ -59,23 +61,35 @@
           // Number formatting (Rounds each value to second decimal point)
           $volume = number_format($volume, 2);  
           $surface_area = number_format($surface_area, 2);
-            
-            if($baseEdge == 0 or $height == 0) { // Ensures that 0 was not inputted
+                                                                                          
+            // Ensures that 0 was not inputted
+            if($baseEdge == 0 or $height == 0) { 
               echo "<h5>An Input of Zero results to nothing!</h5>";                                    
               echo "<h6>Length of Base Inputted: " . $baseEdge . "</h6>";
               echo "<h6>Height Inputted: " . $height . "</h6>";
+              echo "<h6>Units Inputted: " . $unit . "</h6>";              
+            }
+            // Makes sure units are valid
+            elseif ($unit === "mm" or $unit === "cm" or $unit === "dm" or 
+                    $unit === "m" or $unit === "hm" or $unit === "km") {
+              echo "<br><br><h5>The volume of this Hexagonal Prism is " . $volume . $unit . "<sup>3</sup></h5>"; 
+              echo "<h5>The surface area of this Hexagonal Prism is " . $surface_area . $unit . "<sup>2</sup></h5>";
+              echo "<h6>Length of Base Inputted: " . $baseEdge . "</h6>";
+              echo "<h6>Height Inputted: " . $height . "</h6>";
               echo "<h6>Units Inputted: " . $unit . "</h6>";
-            } elseif ($unit === "mm" or $unit === "cm" or $unit === "dm" or 
-                      $unit === "m" or $unit === "hm" or $unit === "km") { // If baseEdge and height are not equal to zero and proper units are inputted
-              echo "<br><br><h5>The volume of this Hexagonal Prism is " . $volume . $unit . "<sup>3</sup><br> The surface area of this Hexagonal Prism is " . $surface_area . $unit . "<sup>2</sup></h5>";
-            } else { // If Invalid units are inputted
+              // If Invalid units are inputted                                    
+            } else { 
               echo "<h5>Invalid Units!</h5>";
               echo "<h6>Length of Base Inputted: " . $baseEdge . "</h6>";
               echo "<h6>Height Inputted: " . $height . "</h6>";
               echo "<h6>Units Inputted: " . $unit . "</h6>";
             }
-          } else { // If all fields do not have an input
+            // If any or all fields do not have an input
+          } else { 
             echo "<h5>Please Fill in ALL fields!</h5>";
+            echo "<h6>Length of Base Inputted: " . $baseEdge . "</h6>";
+            echo "<h6>Height Inputted: " . $height . "</h6>";
+            echo "<h6>Units Inputted: " . $unit . "</h6>";
           }
         }
         // Image of the Formula for Volume
